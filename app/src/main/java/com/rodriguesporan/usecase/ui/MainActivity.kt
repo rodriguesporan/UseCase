@@ -6,12 +6,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.rodriguesporan.usecase.R
-import com.rodriguesporan.usecase.model.GithubRepositoryViewModel
+import com.rodriguesporan.usecase.model.GithubViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textView: TextView
-    private val githubRepositoryViewModel: GithubRepositoryViewModel by viewModels()
+    private val githubRepositoryViewModel: GithubViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +21,12 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<ConstraintLayout>(R.id.rootContainer).setOnClickListener {
             textView.text = "Loding..."
-            githubRepositoryViewModel.listGithubRepositories()
+            githubRepositoryViewModel.listGithubUserRepositories()
+            githubRepositoryViewModel.listGithubOrgsRepositories()
+            githubRepositoryViewModel.listGithubOrgsMembers()
         }
 
-        githubRepositoryViewModel.githubRepositories.observe(this, { repositories ->
+        githubRepositoryViewModel.githubUserRepositories.observe(this, { repositories ->
             textView.text = "response list size > ${repositories.size}"
         })
     }

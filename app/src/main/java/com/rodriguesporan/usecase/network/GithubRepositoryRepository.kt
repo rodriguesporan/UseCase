@@ -5,5 +5,5 @@ import retrofit2.Call
 
 class GithubRepositoryRepository(private val githubRepositoryService: GithubRepositoryService) {
 
-    fun list(): Call<List<GithubRepository>> = githubRepositoryService.listGithubRepositories()
+    fun list(): Call<List<GithubRepository>> = githubRepositoryService.listGithubUserRepositories()
 }

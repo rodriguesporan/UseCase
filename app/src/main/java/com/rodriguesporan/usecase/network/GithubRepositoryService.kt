@@ -1,12 +1,15 @@
 package com.rodriguesporan.usecase.network
 
 import com.rodriguesporan.usecase.BuildConfig
+import com.rodriguesporan.usecase.model.GithubMember
 import com.rodriguesporan.usecase.model.GithubRepository
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 private val service: GithubRepositoryService by lazy {
     val okHttpClient = OkHttpClient.Builder()
@@ -31,5 +34,19 @@ fun getNetworkService() = service // TODO: create service factory before use Dep
 
 interface GithubRepositoryService {
     @GET("user/repos")
-    fun listGithubRepositories(): Call<List<GithubRepository>>
+    fun listGithubUserRepositories(
+        @Query("per_page") pageSize: Int
+    ): Call<List<GithubRepository>>
+
+    @GET("orgs/{organization}/repos")
+    fun listGithubOrgsRepositories(
+        @Path("organization") githubOrganization: String,
+        @Query("per_page") pageSize: Int
+    ): Call<List<GithubRepository>>
+
+    @GET("orgs/{organization}/members")
+    fun listGithubOrgsMembers(
+        @Path("organization") githubOrganization: String,
+        @Query("per_page") pageSize: Int
+    ): Call<List<GithubMember>>
 }
