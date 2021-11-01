@@ -1,4 +1,4 @@
-package com.rodriguesporan.usecase
+package com.rodriguesporan.usecase.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

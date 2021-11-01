@@ -1,4 +1,4 @@
-package com.rodriguesporan.usecase
+package com.rodriguesporan.usecase.model
 
 data class GithubRepository(
     val id: Int,

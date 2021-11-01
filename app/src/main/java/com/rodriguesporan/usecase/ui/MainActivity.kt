@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.rodriguesporan.usecase.GithubRepositoryViewModel
 import com.rodriguesporan.usecase.R
+import com.rodriguesporan.usecase.model.GithubRepositoryViewModel
 
 class MainActivity : AppCompatActivity() {
 

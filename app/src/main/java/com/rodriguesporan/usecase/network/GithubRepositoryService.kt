@@ -1,7 +1,7 @@
 package com.rodriguesporan.usecase.network
 
 import com.rodriguesporan.usecase.BuildConfig
-import com.rodriguesporan.usecase.GithubRepository
+import com.rodriguesporan.usecase.model.GithubRepository
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
