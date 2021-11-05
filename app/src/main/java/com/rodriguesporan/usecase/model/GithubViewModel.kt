@@ -2,6 +2,7 @@ package com.rodriguesporan.usecase.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.rodriguesporan.usecase.network.getNetworkService
 import retrofit2.Call
@@ -21,6 +22,8 @@ class GithubViewModel: ViewModel() {
 
     private val _githubUser: MutableLiveData<GithubUser> = MutableLiveData()
     val githubUser: LiveData<GithubUser> get() = _githubUser
+
+    val githubFirstUserRepository: LiveData<GithubRepository> = Transformations.map(_githubUserRepositories) { it[0] }
 
     fun loadData() {
         loadGithubUserRepositories()
