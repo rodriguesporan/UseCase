@@ -3,6 +3,7 @@ package com.rodriguesporan.usecase.network
 import com.rodriguesporan.usecase.BuildConfig
 import com.rodriguesporan.usecase.model.GithubMember
 import com.rodriguesporan.usecase.model.GithubRepository
+import com.rodriguesporan.usecase.model.GithubUser
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -22,7 +23,7 @@ private val service: GithubRepositoryService by lazy {
         }
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
+        .baseUrl(BuildConfig.GITHUB_API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient.build())
         .build()
@@ -49,4 +50,7 @@ interface GithubRepositoryService {
         @Path("organization") githubOrganization: String,
         @Query("per_page") pageSize: Int
     ): Call<List<GithubMember>>
+
+    @GET("user")
+    fun getGithubUser(): Call<GithubUser>
 }

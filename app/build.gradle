@@ -20,6 +20,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "PERSONAL_REPO_USER_ACCESS_TOKEN", keystoreProperties["PERSONAL_REPO_USER_ACCESS_TOKEN"]
+        buildConfigField "String", "GITHUB_API_BASE_URL", keystoreProperties["GITHUB_API_BASE_URL"]
     }
 
     buildTypes {
@@ -27,6 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        viewBinding = true
+        dataBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
