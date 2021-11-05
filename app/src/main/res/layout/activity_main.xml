@@ -48,7 +48,7 @@
             android:id="@+id/textViewStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{githubViewModel.githubUser.name}"
+            android:text="@{githubViewModel.githubUser.name, default=name_default_value}"
             app:layout_constraintBottom_toTopOf="@+id/textViewFinishTime"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -59,31 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{githubViewModel.githubUser.email}"
-            app:layout_constraintBottom_toTopOf="@+id/textViewDuration"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewStartTime" />
-
-        <TextView
-            android:id="@+id/textViewDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{githubViewModel.githubFirstUserRepository.name}"
-            app:layout_constraintBottom_toTopOf="@+id/buttonAction"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFinishTime" />
-
-        <Button
-            android:id="@+id/buttonAction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="Click"
-            android:onClick="@{() -> githubViewModel.loadData()}"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDuration" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewStartTime" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

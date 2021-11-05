@@ -5,7 +5,6 @@ import com.rodriguesporan.usecase.model.GithubMember
 import com.rodriguesporan.usecase.model.GithubRepository
 import com.rodriguesporan.usecase.model.GithubUser
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -35,22 +34,22 @@ fun getNetworkService() = service // TODO: create service factory before use Dep
 
 interface GithubRepositoryService {
     @GET("user/repos")
-    fun listGithubUserRepositories(
+    suspend fun listGithubUserRepositories(
         @Query("per_page") pageSize: Int
-    ): Call<List<GithubRepository>>
+    ): List<GithubRepository>
 
     @GET("orgs/{organization}/repos")
-    fun listGithubOrgsRepositories(
+    suspend fun listGithubOrgsRepositories(
         @Path("organization") githubOrganization: String,
         @Query("per_page") pageSize: Int
-    ): Call<List<GithubRepository>>
+    ): List<GithubRepository>
 
     @GET("orgs/{organization}/members")
-    fun listGithubOrgsMembers(
+    suspend fun listGithubOrgsMembers(
         @Path("organization") githubOrganization: String,
         @Query("per_page") pageSize: Int
-    ): Call<List<GithubMember>>
+    ): List<GithubMember>
 
     @GET("user")
-    fun getGithubUser(): Call<GithubUser>
+    suspend fun getGithubUser(): GithubUser
 }

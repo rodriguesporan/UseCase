@@ -1,13 +1,9 @@
 package com.rodriguesporan.usecase.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.rodriguesporan.usecase.network.getNetworkService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GithubViewModel: ViewModel() {
 
@@ -25,84 +21,47 @@ class GithubViewModel: ViewModel() {
 
     val githubFirstUserRepository: LiveData<GithubRepository> = Transformations.map(_githubUserRepositories) { it[0] }
 
-    fun loadData() {
-        loadGithubUserRepositories()
-        loadGithubOrgsRepositories()
-        loadGithubOrgsMembers()
-        loadGithubUser()
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            loadGithubUserRepositories()
+            loadGithubOrgsRepositories()
+            loadGithubOrgsMembers()
+            loadGithubUser()
+        }
     }
 
-    private fun loadGithubUserRepositories() {
-        getNetworkService().listGithubUserRepositories(1000)
-            .enqueue(object : Callback<List<GithubRepository>> {
-                override fun onResponse(call: Call<List<GithubRepository>>, response: Response<List<GithubRepository>>) {
-                    if (response.isSuccessful) {
-                        _githubUserRepositories.value = response.body()
-                    } else {
-                        _githubUserRepositories.value = listOf()
-                    }
-                }
-
-                override fun onFailure(call: Call<List<GithubRepository>>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-        })
+    private suspend fun loadGithubUserRepositories() {
+        try {
+            _githubUserRepositories.value = getNetworkService()
+                .listGithubUserRepositories(1000)
+        } catch (error: Throwable) {
+            _githubUserRepositories.value = null
+        }
     }
 
-    private fun loadGithubOrgsRepositories() {
-        getNetworkService().listGithubOrgsRepositories("square", 1000)
-            .enqueue(object : Callback<List<GithubRepository>> {
-                override fun onResponse(
-                    call: Call<List<GithubRepository>>,
-                    response: Response<List<GithubRepository>>
-                ) {
-                    if (response.isSuccessful) {
-                        _githubOrgsRepositories.value = response.body()
-                    } else {
-                        _githubOrgsRepositories.value = listOf()
-                    }
-                }
-
-                override fun onFailure(call: Call<List<GithubRepository>>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })
+    private suspend fun loadGithubOrgsRepositories() {
+        try {
+            _githubOrgsRepositories.value = getNetworkService()
+                .listGithubOrgsRepositories("square", 1000)
+        } catch (error: Throwable) {
+            _githubOrgsRepositories.value = null
+        }
     }
 
-    private fun loadGithubOrgsMembers() {
-        getNetworkService().listGithubOrgsMembers("square", 1000)
-            .enqueue(object : Callback<List<GithubMember>> {
-                override fun onResponse(
-                    call: Call<List<GithubMember>>,
-                    response: Response<List<GithubMember>>
-                ) {
-                    if (response.isSuccessful) {
-                        _githubOrgsMembers.value = response.body()
-                    } else {
-                        _githubOrgsMembers.value = listOf()
-                    }
-                }
-
-                override fun onFailure(call: Call<List<GithubMember>>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })
+    private suspend fun loadGithubOrgsMembers() {
+        try {
+            _githubOrgsMembers.value = getNetworkService()
+                .listGithubOrgsMembers("square", 1000)
+        } catch (error: Throwable) {
+            _githubOrgsMembers.value = null
+        }
     }
 
-    private fun loadGithubUser() {
-        getNetworkService().getGithubUser()
-                .enqueue(object : Callback<GithubUser>{
-                    override fun onResponse(call: Call<GithubUser>, response: Response<GithubUser>) {
-                        if (response.isSuccessful) {
-                            _githubUser.value = response.body()
-                        } else {
-                            _githubUser.value = null
-                        }
-                    }
-
-                    override fun onFailure(call: Call<GithubUser>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })
+    private suspend fun loadGithubUser() {
+        try {
+            _githubUser.value = getNetworkService().getGithubUser()
+        } catch (error: Throwable) {
+            _githubUser.value = null
+        }
     }
 }
